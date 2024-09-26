@@ -19,32 +19,6 @@ library(tidyquant)
 
 # Hito 1:
 
-## Descripción Activo y Contexto
-
-Fecha de entrega límite: Miércoles 25 de Septiembre 23:59.
-
-### Definición
-
-El activo elegido fue Enel Chile S.A. La compañía es una extensión de Enel, empresa italiana. Se dedica a generación, distribución y transformación de energía a lo largo de todo el país.
-
-Enel Chile se formó a partir de una reestructuración que comenzó en el año 2015, en ese entonces la empresa se llamaba Enersis Américas. En esta reestructuración, se aprobó la fusión de las compañías Enersis Chile, Endesa Chile y Chilectra en una estrategia denominada "La Fusión". En este mismo proceso se procedió al cambio de nombre a la hoy conocida Enel Chile S.A.
-
-Enel Chile es la mayor suministradora de energía del país, debido a esto en relevante exponer los datos nacionales de uso de electricidad. En el paper "Consumption-based carbon emissions, renewable energy consumption, financial development and economic growth in Chile" de @kirikkaleli2021 se expone un análisis descriptivo de los consumos nacionales de electricidad, el cual se presenta a continuación:
-
-[![Tabla 2 en](Data/Screenshot%202023-09-28%20at%2015.51.18.png){fig-align="center"}](https://doi.org/10.1002/bse.2945)
-
-En donde:
-
--   CCO2: Emisiones de carbonos basadas en el consumo de energía medida en millones de toneladas de CO2.
-
--   GDP: Crecimiento de la economía medido en el PIB per cápita.
-
--   ELE: Consumo eléctrico medido en Kw/h.
-
--   REN: COnsumo de energía renovables medido en Tw/h.
-
--   FD: Crecimiento financiero, medida amplia para el desarrollo financiero teniendo en cuenta su eficiencia, accesibilidad y profundidad.
-
 ```{r ETL}
 #| echo: false
 # Alternativamente Use FANG data set
@@ -57,10 +31,8 @@ ENELCHILE <- tq_get("ENELCHILE.SN", get = "stock.prices", from = "2017-01-01", t
 ENELAM <- tq_get("ENELAM.SN", get = "stock.prices", from = "2017-01-01", to = end)
 AESANDES <- tq_get("AESANDES.SN", get = "stock.prices", from = "2017-01-01", to = end)
 ECL <- tq_get("ECL.SN", get = "stock.prices", from = "2017-01-01", to = end)
-CL <- rbind(ENELCHILE,ENELAM,AESANDES,ECL)
+CL <- rbind(ENELCHILE,ENELAM,AESANDES,ECL
 ```
-
-Por otro lado, también es de suma importancia tener en consideración los precios históricos del activo ENELCHILE, el cual actualmente tiene un valor promedio para el intervalo de años 2017-presente igual a `r round(mean(ENELCHILE$close),digits=0)`. A continuación se presentan dos gráficos que muestran estos datos históricos:
 
 ```{r ENELCHILEline}
 #| echo: false
@@ -77,245 +49,133 @@ ENELCHILE %>%
 ENELCHILE %>%
     ggplot(aes(x = date, y = close)) +
     geom_candlestick(aes(open = open, high = high, low = low, close = close)) +
-    labs(title = "ENELCHILE Candlestick Chart", y = "Closing Price", x = "") +
+    labs(title = "ENELCHILE Candlestick Chart", y = "Closing Price", x = "") 
     theme_tq()
 ```
 
-### Motivación
+### **1. Sector**
 
-Se escogió este activo en particular debido al compromiso con el medio ambiente y a indicadores ASG (Ambiental, Social y Gobernanza), alguno de sus objetivos son:
+El activo derivado **MCD Sep 2024 285.000 Call (MCD240927C00285000)** pertenece al sector de servicios de alimentos. McDonald 's Corporation es una de las empresas más influyentes a nivel mundial en la industria de comida rápida, esto debido a su gran tamaño, su poder de marca y el alcance que tiene a nivel global. Es una industria que ha experimentado cambios significativos en los últimos años. Esto incluye la creciente demanda de opciones más saludables y sostenibles, así como la integración de tecnología avanzada para mejorar la experiencia del cliente. (Boardmix, 2023)(World Economic Forum, 2024).
 
-Alcanzar un 80% de energía renovable en su matriz de generación para 2024, reducir las emisiones de gases de efecto invernadero en un 40% para 2025 y aumentar la eficiencia energética en un 20% para 2030.
+McDonald 's ha realizado importantes inversiones en tecnología, incluyendo la digitalización de procesos a través de pedidos automatizados y el uso de aplicaciones móviles para facilitar la experiencia del cliente. Además, ha expandido los servicios de entrega a domicilio mediante asociaciones estratégicas con plataformas de reparto, lo que le ha permitido mantenerse competitivo en el entorno actual. En cuanto a sostenibilidad, McDonald 's ha priorizado la reducción de su huella de carbono mediante la implementación de fuentes de energía renovable y prácticas de suministro sostenible. Estos esfuerzos no solo responden a la creciente demanda de los consumidores por empresas responsables, sino que también ayudan a la compañía a cumplir con sus compromisos ambientales a largo plazo​. (Technology Magazine, 2024) (Entrepreneur, 2024).
 
-Como menciona el Diario Financiero (DF) Enel Chile sostiene una estrategia de sostenibilidad para llegar a ser una empresa carbono neutral al año 2040. Para lograr este objetivo, Enel destinará US\$1.700 millones a temas ASG, los que principalmente se gastarán en la construcción de nuevas plantas de energías renovables.
+Por lo que en este contexto, las acciones de empresas como McDonalds dependen en gran medida de la capacidad de adaptarse rápidamente a los cambios tecnológicos del mercado y promover la sostenibilidad.
 
-Asimismo, varios documentos de la WOS (Web of Science) sustentan la iniciativa medioambiental de Enel Chile, principalmente con tarifas variables que logren cambiar los hábitos de uso de energía, homeostaticidad energética, entre otros.
+El mercado de las opciones sobre acciones en empresas como McDonald 's permite a los inversores capitalizar las oportunidades de crecimiento y adaptación en el mercado sin asumir el riesgo completo de la compra directa de acciones. Este enfoque puede ser útil para quienes desean beneficiarse del crecimiento continuo de la empresa sin la exposición total al riesgo del mercado.
 
-Todos estos puntos fomentan el interés especifico sobre este activo por sobre los demás activos energéticos incluidos en el IPSA.
+### **2. Motivación**
 
-### Contexto
+La elección de la opción MCD Sep 2024 285.000 Call se basa en la capacidad comprobada de McDonald 's para mantener su liderazgo en la industria global de comida rápida. A lo largo de los años, la empresa ha demostrado una notable resiliencia, incluso en tiempos de crisis como la pandemia de COVID-19, donde adaptó rápidamente sus operaciones para centrarse en los pedidos digitales y la entrega a domicilio, respondiendo eficazmente a las cambiantes necesidades de los consumidores. Aunque el sector de la comida rápida no se encuentra en expansión acelerada, sigue teniendo una gran participación global, ofreciendo tanto opciones rápidas y económicas como productos más elaborados. Con más de 36.000 restaurantes en más de 100 países, McDonald 's ha mantenido una trayectoria sólida desde su fundación, lo que refuerza sus proyecciones positivas a futuro (McDonald' s, 2024).
 
-El IPSA tiene 4 componentes de la industria de energía, Enel Chile S.A, Enel Latinoamerica S.A, Engie Energia Chile S.A y AES Gener SA. Los primeros 2 corresponden a la empresa italiana Enel. A continuación se presentan los precios históricos de cada una de estas acciones:
+El precio actual de las acciones de McDonald 's, de aproximadamente \$296,83, sitúa la opción MCD Sep 2024 285.000 Call cerca de estar "in-the-money". Esto aumenta su atractivo, ya que el valor intrínseco está a punto de activarse. La tendencia de las acciones sugiere que podrían seguir subiendo, impulsadas por las recientes inversiones estratégicas en tecnología y sostenibilidad, como la adopción de inteligencia artificial para mejorar la experiencia del cliente y la expansión de su infraestructura digital para servicios de entrega y pedidos móviles. Además, la implementación de prácticas sostenibles en su cadena de suministro fortalece su posición en un mercado cada vez más consciente del impacto ambiental. Todo esto refuerza la expectativa de crecimiento sostenido en el valor de las acciones a corto y mediano plazo.
 
-```{r context}
-#| warning: false
-#| echo: false
-start <- end - weeks(6)
+### **3. Variables fundamentales para el analisis**
 
-CL %>%
-    filter(date >= start - days(2 * 15)) %>%
-    ggplot(aes(x = date, y = close, group = symbol)) +
-    geom_line() +
-    labs(title = "Activos Energía IPSA", 
-         subtitle = "Comparativo de activos del sector",
-         y = "Precio al cierrew", x = "") + 
-    coord_x_date(xlim = c(start, end)) +
-    facet_wrap(~ symbol, ncol = 2, scale = "free_y") +
-    theme_tq()
+Para analizar la opción MCD Sep 2024 285.000 Call, se han identificado tres variables clave que influyen directamente en su valoración:
+
+**1. Duración hasta el vencimiento (T)**: El tiempo restante hasta el vencimiento de una opción es crucial para determinar su valor temporal. La opción MCD Sep 2024 285,000 Call vence en septiembre de 2024, lo que otorga un horizonte de aproximadamente un año. Durante este período, se espera que el precio de las acciones de McDonald 's tenga el potencial de aumentar, lo que beneficiaría al titular de la opción. Sin embargo, a medida que se acerca la fecha de expiración, el valor temporal de la opción disminuye, lo que se conoce como "decadencia temporal". Este fenómeno afecta negativamente el valor de la opción si el precio de las acciones no se mueve de manera favorable antes del vencimiento, reduciendo el valor intrínseco y el valor temporal de la opción.
+
+**2. Tasa libre de riesgo (r)**: Para el análisis, se usará la tasa libre de riesgo del 4,76%, que corresponde al rendimiento actual de los bonos del Tesoro de EE.UU. a 1 mes. Esta tasa se emplea para descontar los flujos de caja futuros en el modelo de valoración de opciones, como el modelo de Black-Scholes. Dado que la tasa libre de riesgo representa el rendimiento de una inversión segura, influye en el valor presente del precio de ejercicio. A medida que la tasa libre de riesgo aumenta, el valor presente del precio de ejercicio disminuye, lo que puede incrementar el valor de la opción de compra, dado que se espera que los inversionistas prefieran activos más arriesgados con mayor retorno.
+
+**3.Precio del bono (B)**: El bono escogido para el análisis es un bono del Tesoro de EE.UU. con valor nominal de \$1.000. Los bonos del Tesoro son activos de bajo riesgo que proporcionan un rendimiento fijo y sirven como referencia para la tasa libre de riesgo. El rendimiento del bono es crucial para el análisis ya que establece una base para evaluar el rendimiento de inversiones más arriesgadas, como las opciones de acciones. En este contexto, el precio del bono se utiliza como una referencia para calcular el valor descontado del precio de ejercicio, proporcionando un indicador clave en la valoración de la opción.
+
+La interacción entre estas variables define el comportamiento del derivado, permitiendo a los inversores realizar pronósticos más informados sobre su rendimiento futuro y tomar decisiones estratégicas basadas en sus objetivos de inversión.
+
+### 4. Contexto
+
+**1. Activo Subyacente:** El precio actual de las acciones de McDonald 's es \$292,83. La empresa ha mostrado un crecimiento estable, impulsado por su capacidad para innovar en un entorno competitivo, adaptando su modelo de negocio a las tendencias del mercado como la digitalización y la sostenibilidad. Esta capacidad para evolucionar su oferta ha mantenido a McDonald 's en una posición de liderazgo en la industria global.
+
+![](Figura 1.png){width="634"}
+
+*Figura 1: Comportamiento del Activo Subyacente*
+
+*Fuente: Yahoo Finance*
+
+**2. Opción de compra (MCD Sep 2024 285.000 Call):** La opción de compra MCD Sep 2024 285.000 Call otorga al titular el derecho de comprar acciones de McDonald 's a un precio de \$285 antes o en la fecha de vencimiento. Actualmente, dado que el precio de las acciones es superior a \$285, la opción está cerca de ser "in-the-money", lo que incrementa su valor.
+
+![](figura 2.png)
+
+*Figura 2: Comportamiento de la opción*
+
+*Fuente: Yahoo Finance*
+
+**3. Bono del Tesoro de EE.UU. a 1 mes**:
+
+El bono del Tesoro a corto plazo tiene un rendimiento anual de 4.76% y se emplea en este análisis como el activo libre de riesgo, dado su baja volatilidad y su alta seguridad crediticia. Este rendimiento se utiliza para descontar los flujos de caja futuros en la valoración de opciones, lo que permite calcular con mayor precisión el valor presente de las inversiones. Los bonos del Tesoro a 1 mes, al ser considerados activos con riesgo mínimo, sirven como referencia clave para inversionistas al evaluar el riesgo comparado con otros activos más volátiles.
+
+![](figura 3.png){width="774"}
+
+*Figura 3: Bono del tesoro a 1 mes de EEUU*
+
+*Fuente: TradingView*
+
+### 5. Análisis Formal MCD sep 2024 285.000 call
+
+Para realizar este análisis, de la opción de McDonald 's, se utilizó el archivo de Google Colab llamado ArbitrajeBlackScholes.ipynb. Esto para calcular el valor de la opción utilizando el modelo Black-Scholes. Los parámetros que se utilizaron para el análisis son los siguientes:
+
+\- Precio de Ejercicio (K): \$285
+
+\- Precio del Activo Subyacente (S0): \$296.83
+
+\- Tasa libre de riesgo (r): 4.76%
+
+\- Precio del Bono (B): \$1000
+
+\- Duración hasta el vencimiento (T): 1 año aprox.
+
+\- Precio de la Opción (q3): \$12.67
+
+\- Days range: 5,22
+
+**Cálculo de los Factores de Aumento (u) y Disminución (d):**
+
+\- Precio del Activo en Estado "downer" (St(wd)): d × 296.83 = 291.61
+
+\- Precio del Activo en Estado "upper" (St(wu)): u × 296.83 = 302.05
+
+\- Factor de movimiento "downer" (d): 0.9824
+
+\- Factor de movimiento "upper" (u): 1.0176
+
+Se aplicó el Teorema Fundamental de Valoración de Activos para calcular las probabilidades ajustadas por riesgo, garantizando un mercado libre de arbitraje. Posteriormente, se resolvió un sistema de ecuaciones para determinar el valor justo de la opción, considerando los retornos esperados de los activos, las tasas de descuento aplicadas, y el horizonte temporal del análisis para mayor precisión.
+
+![](Matriz.png){fig-align="left"}
+
+*Figura 4: Parámetros del collab*
+
+*Fuente: Elaboración propia*
+
+![](Resultados.png)
+
+*Figura 5: Resultados del collab*
+
+*Fuente: Elaboración propia*
+
+## 6.Bibliografía
+
+-   Boardmix (2023). McDonald 's PESTLE Analysis: Unveiling the Global Fast-Food Giant's Insights. Disponible en:[ https://boardmix.com](https://boardmix.com) (Accedido el 25 de septiembre de 2024).
+
+```{=html}
+<!-- -->
 ```
+-   Entrepreneur (2024). McDonald 's digital drive: How technology serves up future growth. Disponible en:[ https://www.entrepreneur.com](https://www.entrepreneur.com) (Accedido el 25 de septiembre de 2024).
 
-Si bien los montos de los precios dependen de otros factores, tales como la cantidad de acciones que componen la compañía, si se observan tendencias entre estas. La más clara es que ambas empresas de Enel siguen un mismo patrón de precios, lo que hace sentido ya que pertenecen al mismo grupo. Lo que también se aprecia, es que cuando el precio de Enel aumenta, tanto de Engie Energia Chile S.A como el de AES Gener SA disminuye. Esto se puede deber a que la variación en la participación que tiene en la industria cada uno de estas influye inversamente en la otra (a mayor participación de Enel Chile, menor será la de el resto de los suministradores nacionales).
-
-También es interesante ver las rentabilidades que ha tenido el activo elegido:
-
-![](Data/Screenshot%202023-09-28%20at%2017.57.54.png){fig-align="center" width="144"}
-
-A partir de esto se puede ver que Enel Chile ha tenido un crecimiento en la mayoría de los años, aunque se puede apreciar una baja de casi un 50% en el año 2021 debido a la pandemia de Covid-19. Cabe destacar que según analistas de Yahoo Finance, Enel Chile tendrá un crecimiento estimado cercano al 65,80%.
-
-### Modelo Binomial
-
-El Modelo Binomial de Valoración de Opciones (BM, por sus siglas en inglés) también conocido como Cox-Ross-Rubinstein introducido en @cox1979, es un modelo que estima el valor de una opción en t=0 teniendo pagos futuros en diferentes estados (usualmente "Up" y "Down"). Este Modelo Binomial asume que no hay posibilidad de arbitraje en el mercado, determinando el precio que sigue un activo en un random walk, en donde en cada paso (tiempo) existe una probabilidad de que el precio suba o baje (Ahmad, 2018).
-
-![Random Walk en BM de un paso (Ahmad, 2018)](Data/Screenshot%202023-10-19%20at%2010.33.38.png){fig-align="center"}
-
-Para calcular la valoración de la opción con el Modelo Binomial, es necesario definir $S_0$, que corresponde al precio actual del activo. Además, se deben determinar los valores de $u$ y $d$, que representan los factores por los cuales se multiplica $S_0$ en cada estado para obtener el precio del activo en cada caso en el siguiente período (t = 1):
-
-$$
-S_1 = \begin{cases}    S_0\cdot u \text{ en el estado ``Up"} \\    
-S_0\cdot d \text{ en el estado ``Down"}\end{cases}
-$$
-
-También se debe calcular la probabilidad $P$ de que ocurra el caso "Up", la probabilidad de que ocurra el otro caso ("Down") simplemete quedaría en $(1-P)$. Para el calculo de la porobabilidad se usa la siguiente ecuación:
-
-$$
-P = \frac{e^r-d}{u-d}
-$$
-
-Donde $r$ es la tasa libre de riesgo.
-
-Por otro lado se deben calcular $C_u$ y $C_d$ los cuales se obtienen como los precios de una opción europea:
-
-$$
-C_u = max(0, S_0\cdot u-k)\\
-C_d = max(0, S_0\cdot d-k)
-$$
-
-Finalmente el precio de la opción se calcula de la siguiente manera:
-
-$$
-V = \frac{C_u\cdot P + C_d\cdot (1-P)}{1+r}
-$$
-
-```{r}
-binomial_model <- function(cu, p, cd, rf) {
-  return((cu*p + cd*(1-p))/(1+rf))
-} 
-
-S <- tail(ENELCHILE$close,1)  # Precio actual del activo subyacente
-K <- 38  # Precio de ejercicio de la opción
-T <- 1  # Tiempo hasta la expiración (en años)
-r <- 0.0642 # Tasa de interés libre de riesgo
-u <- 1.1  # Factor de crecimiento en un paso hacia arriba
-d <- 0.9  # Factor de crecimiento en un paso hacia abajo
-
-Su <- S*u
-Sd <- S*d
-p <- (1+r-d)/((1+r)*(u-d))
-
-cu <- max(Su - K, 0)
-cd <- max(Sd - K, 0)
-
-
-print(paste("El precio de la opción con el Modelo Binomial es ", binomial_model(cu, p, cd, r)))
-
+```{=html}
+<!-- -->
 ```
+-   McDonald 's (2024). McDonald 's Acerca de nosotros. Disponible en: <https://www.mcdonalds.com/us/es-us/about-us.html#:~:text=Desde%20el%20humilde%20comienzo%20como,en%20m%C3%A1s%20de%20100%20pa%C3%ADses>. (Accedido el 25 de septiembre de 2024).
 
-### Modelo Black and Scholes (BS)
-
-```{r}
-black_scholes <- function(S, K, t, r, sigma) {
-    d1 <- (log(S/K) + (r + 0.5 * sigma^2) * t) / (sigma * sqrt(t))
-    d2 <- d1 - sigma * sqrt(t)
-    N_d1 <- pnorm(d1)
-    N_d2 <- pnorm(d2)
-    precio_call <- S * N_d1 - K * exp(-r * t) * N_d2
-    return(precio_call)
-  }
-  
-rendimientos <- diff(log(ENELCHILE$close))
-sigma<-sd(rendimientos[2:length(rendimientos)])
-volatilidad<-var(rendimientos[2:length(rendimientos)])
-
-
-S<- tail(ENELCHILE$close,1) # Precio actual del activo subyacente
-K<- 38 # Precio de ejercicio de la opción
-R<- 0.0642 # Tasa de interés libre de riesgo
-t <- 1 # Tiempo hasta la expiración (en años)
-
-print(paste("El precio de la opción con el Modelo Black and Scholes es ", black_scholes(S, K, t, R, sigma)))
-
-
+```{=html}
+<!-- -->
 ```
+-   Technology Magazine (2024). McDonald 's: Tech Strategy Unlocks Speed, Growth & Efficiency. Disponible en:[ https://www.technologymagazine.com](https://www.technologymagazine.com) (Accedido el 25 de septiembre de 2024).
 
-### Comparación de modelos
+-   World Economic Forum (2024). Consumers want sustainable options. What food producers, suppliers, and retailers can do now. Disponible en:[ https://www.weforum.org](https://www.weforum.org) (Accedido el 25 de septiembre de 2024).
 
-Ambos modelos son comúnmente utilizados en las finanzas. Por lo tanto, se puede afirmar que cuentan con respaldo y fundamentos sólidos. Según el artículo de (Ahmad, 2018), los resultados del precio de la opción calculados con ambos modelos muestran una correlación muy cercana a 1, lo que significa que si el precio de la opción aumenta con un modelo, también lo hace con el otro. Sin embargo, esto no implica que ambos modelos proporcionen el mismo precio, como se puede observar en el ejercicio realizado anteriormente.
+## 7.Anexo
 
-Estos modelos difieren en algunas cosas, tales como:
+![](IA.png)
 
--   Precio del activo subyacente: En modelo Black and Scholes sigue una distribución lognormal mientras que el Binomial multiplica el valos $S_0$ con dos opciones ($u$ y $d$)
+*Figura 6: Scanner de IA en un AI detector*
 
--   Debido a lo anterior, el modelo de Black and Scholes es continuo y el Binomial discreto.
-
--   El modelo BS sirve solo para opciones europeas, mientras que el Binomial también sirve para opciones americanas.
-
-También tienen algunas similitudes:
-
--   Ambos utilizan el precio actual del activo subyacente.
-
--   Ambos usan la tasa libre de riesgo.
-
--   En este caso los dos se usaron para un periodo de tiempo.
-
--   Ambos consideran la volatilidad del activo.
-
-En resumen, el modelo de Black-Scholes constituye una buena herramienta analítica para valorar opciones europeas y supone movimientos continuos en las cotizaciones del mercado. En cambio, el modelo Binomial ofrece mayor flexibilidad al emplear una estructura de árbol que facilita la valoración tanto de opciones europeas como americanas. Elegir uno u otro modelo dependerá del tipo específico de opción que se esté analizando y las inferencias que se quieran hacer en relación a cómo evolucionarán los precios en el mercado financiero.
-
-# Hito 2 (en revisión):
-
-### Análisis de Largo Plazo
-
-#### Caracterización deuda
-
-Enel Chile mantiene deudas de prestamos bancarios por monedas y vencimiento, el que se detalla a continuación:
-
-![](Data/Screenshot%202023-09-28%20at%2019.15.48.png){fig-align="center" width="792"}
-
-Del mismo estado financiero, se detallan los siguientes instrumentos financieros:
-
-1.  Activos financieros no derivados: Costo amortizado, Activos financieros registrados a valor razonable con cambios en otros resultados integrales y Activos financieros registrados a valor razonable con cambios en resultados.
-2.  Efectivo y equivalentes al efectivo
-3.  Deterioro de valor de los activos financieros
-4.  Pasivos financieros excepto derivados
-5.  Derivados y operaciones de cobertura
-6.  Baja de activos y pasivos financieros
-7.  Compensación de activos y pasivos financieros
-8.  Contratos de garantías financieras
-
-La inversiones de al compañía son colocadas segun el siguiente criterio mencionado en su estado financiero:
-
-"Las inversiones de excedentes de caja se efectúan en entidades financieras nacionales y extranjeras de primera línea con límites establecidos para cada entidad.
-
-En la selección de bancos para inversiones se consideran aquellos que tengan calificación investment grade, considerando las tres principales agencias de rating internacional (Moody's, S&P y Fitch).
-
-Las colocaciones pueden ser respaldadas con bonos del tesoro de Chile y/o papeles emitidos por bancos de primera línea, privilegiando estos últimos por ofrecer mayores retornos (siempre enmarcado en las políticas de colocaciones vigentes)."
-
-A continuación se presenta la clasificación de instrumentos financieros por naturaleza y categoria:
-
-![](Data/Screenshot%202023-09-28%20at%2019.29.34.png){width="700"}
-
-#### Caracterización de emisiones históricas (Aplicación cap. 20)
-
-Segun el último estado financiero emitido por la empresa Enel Chile en junio 2023, la compañía tiene 69.166.557 miles de acciones ordinaria en circulación. En la base de la CMF no existen registros de emisiones de acciones, sin embargo si hay una inscropción en el registri de valores por una emisión de 10.000.000.000 acciones de pago ordinarias para así aumentar el capital de la empresa en \$820.000.000.000, teniendo cada acción un precio de \$82.
-
-No existe registro del procedimiento utilizado para la emisión de estas acciones, solo se detalla que la junta extraordinaria de accionistas se llevó a cabo el 20 de diciembre de 2017 y que cuya acta se redujo a escritura publica el 28 de diciembre del mismo año.
-
-#### Relación con activos derivados
-
-Para protección de la empresa, esta busca cobertura frente a posibles riesgos que puedan alterar los objetivos de la compañía. Ellos mismos señalan "Los derivados mantenidos por el Grupo corresponden fundamentalmente a operaciones contratadas con el fin de cubrir el riesgo..."
-
-Enel Chile toma en consideración y protección frente los siguientes riesgos:
-
-1.  Riesgo de tasa de interés
-2.  Riesgo de tipo de cambio
-3.  Riesgo de commodities
-4.  Riesgo de liquidez
-5.  Riesgo de crédito
-
-A continuación se desglozan los derivados de Enel Chile:
-
-![](Data/Screenshot%202023-09-28%20at%2019.49.03.png){fig-align="center"}
-
-Los derivados se registran por su valor razonable en la fecha del estado de situación financiera. En el caso de los derivados financieros, si su valor es positivo, se registran en el rubro "Otros activos financieros", y si es negativo, en el rubro "Otros pasivos financieros". Si se trata de derivados sobre commodities, el valor positivo se registra en el rubro "Cuentas comerciales por cobrar y otras cuentas por cobrar" y si es negativo en el rubro "Cuentas comerciales y otras cuentas por pagar" (EEFF Enel Chile, Junio 2023).
-
-### Reporte grupal
-
-Se decidieron los siguientes pesos del portafolio basándose en distintos factores, pero principalente la estimación de crecimiento a un año de cada uno de los activos proporcionada por Yahoo Finance. Los porcentajes del portafolio serán los siguientes:
-
--   Enel: 50%
-
--   Banco de Chile: 30%
-
--   Parque Arauco: 20%
-
-En primer lugar, se determinó que Enel Chile tendra un 50% de peso en el portafolio debido al pronostico de crecimiento que tendrá en el proximo año (65.80%). Además en los ultimos 2 años ha obtenido un retorno promedio de 37.5%, mayor que los activos elegidos en las otras industrias. Otro aspecto que nos hizo elegir un peso mayor que las otras compañia es su compromiso con el medio ambiente, aspecto que cada vez es mas valordo. Por otro lado, la empresa ha invertido fuertemente en nuevos proyectos que probablemente demuestren mayores retornos en el futuro.
-
-Por otro lado, al Banco de Chile se le asignó un 30% de peso en el portafolio debido a su liderzago en la industria bancaria en terminos de rentabilidad y ha jugado un papel sumamente importante a lo largo de los años en la industria financiera. Junto a esto, la proyección del banco en terminos de crecimiento para los proximos años, es positiva y cercana a un 11.8%.
-
-Finalmente, a Parque Arauco se le otorgó un 20% del portafolio debido a la diversificación del modelo de negocios que han implementado en los últimos años. El ingreso al negocio de los edificios multifamily podría ser una razón de gran crecimiento para la empresa en el futuro, debido a que actualmente ya operan dos edificios en Santiago, tienen proyectos que estarán operando en el corto plazo en Perú y Colombia, y tienen planes de seguir ampliando esta cantidad. Considerando la gran demanda de arriendo que existe hoy en día, la empresa podría verse muy beneficiada con la implementación de este nuevo negocio.
-
-### Caso Grupal (No requerido para versión 2024)
-
-Los datos se obtuvieron en su mayoría del Estado Financiero de la empresa Enel Chile a junio de 2023. Los datos que no pudieron ser encontrados se supusieron a partir de la misma información entregada en ese documento.
-
-El caso escogido para replicar con nuestro activo fue el del capítulo 28 del libro guía del curso "Finanzas Corporativas" de Ross, en el cual se evalúan tres opciones. A continuación, se presentan los datos:
-
-![Datos de Estado Financiero ENELCHILE](Data/Screenshot%202023-10-26%20at%2022.43.45.png)
-
-![Datos ENELCHILE para Caso Cap.28](Data/Screenshot%202023-10-26%20at%2019.47.47.png)
-
-A partir de lo anterior, se puede determianar que el la opción 1 es la mejor debido a que obtiene el VPN mayor. Las opciones 2 y 3 dan un valor menor a la 1, lo que no se consideran optimas en este escenario.
-
-## Bibliografía
-
-Ahmad Dar, A., Anuradha, N., 1 Department of Mathematics and Actuarial Science, B S Abdur Rahman Crescent University, IN, & 2 Department of Management Studies, B S Abdur Rahman Crescent University, IN. (2018). Comparison: Binomial model and Black Scholes model. *Quantitative Finance and Economics*, *2*(1), 230--245. <https://doi.org/10.3934/QFE.2018.1.230>
+*Fuente: Undetectable AI*
